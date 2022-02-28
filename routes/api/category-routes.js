@@ -7,7 +7,7 @@ const { Category, Product, ProductTag} = require('../../models');
 router.get('/', async (req, res) => {
   try {
     const categoryData = await Category.findAll({
-      include:Product
+      include: Product
     });
     res.status(200).json(categoryData);
   } catch (err) {
@@ -20,7 +20,8 @@ router.get('/:id', async (req, res) => {
   try {
     const categoryData = await Category.findByPk(req.params.id, {
       // JOIN with product, using the  through table
-      include:Product });
+      include: Product
+    });
 
     if (!categoryData) {
       res.status(404).json({ message: 'No category found with this id!' });
@@ -43,9 +44,24 @@ router.post('/', async (req, res) => {
   }
 });
 
+//update an existing category WORKING
+router.put('/:id', async (req, res) => {
+  try {
+    const categoryData = await Category.update(req.body,{
+      where: {
+        id: req.params.id
+      }
+    });
+    //check if the id the user insert is present in the database 
+    if (!categoryData) {
+      res.status(404).json({ message: 'No category found with this id!' });
+      return;
+    }
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 //delete a category by id WORKING
@@ -56,7 +72,7 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-//check if the id the user insert is present in the database 
+    //check if the id the user insert is present in the database 
     if (!categoryData) {
       res.status(404).json({ message: 'No category found with this id!' });
       return;

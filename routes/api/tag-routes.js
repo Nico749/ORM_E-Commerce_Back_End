@@ -3,21 +3,20 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
-
-//NOT WORKING  
+//get all tags WORKING  
 router.get('/', async (req, res) => {
   try {
     const tagData = await Tag.findAll({
-    include:({model:Product})
-  })
+      include: [{
+        model: Product, through: ProductTag, as: 'tag__product'
+      }]
+    })
+
     res.status(200).json(tagData);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-  // find all tags
-  // be sure to include its associated Product data
-  
 
 // GET a single tag by id WORKING
 router.get('/:id', async (req, res) => {
@@ -37,8 +36,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-
 
 // create a new tag WORKING
 router.post('/', async (req, res) => {
@@ -101,7 +98,7 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-//check if the id the user insert is present in the database 
+    //check if the id the user insert is present in the database 
     if (!tagData) {
       res.status(404).json({ message: 'No tag found with this id!' });
       return;
