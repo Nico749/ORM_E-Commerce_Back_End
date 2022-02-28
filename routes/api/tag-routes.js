@@ -47,47 +47,24 @@ router.post('/', async (req, res) => {
   }
 });
 
-
-//update an existing tag not working 
-router.put('/:id', (req, res) => {
-  // update product data
-  Tag.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((product) => {
-      // find all associated tags from ProductTag
-      return Tag.findAll({ where: { product_id: req.params.id } });
-    })
-    .then((tags) => {
-      // get list of current tag_ids
-      const tagIds = tags.map(({ tag_id }) => tag_id);
-      // create filtered list of new tag_ids
-      const newTags = req.body.tagIds
-        .filter((tag_id) => !tagIds.includes(tag_id))
-        .map((tag_id) => {
-          return {
-            product_id: req.params.id,
-            tag_id,
-          };
-        });
-      // figure out which ones to remove
-      const tagToUpdate = tags
-        .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
-        .map(({ id }) => id);
-
-      // run both actions
-      return Promise.all([
-        Tag.update({ where: { id: tagToUpdate } }),
-        Tag.bulkCreate(newTags),
-      ]);
-    })
-    .then((updatedTags) => res.json(updatedTags))
-    .catch((err) => {
-      // console.log(err);
-      res.status(400).json(err);
+//updating an existing tag 
+router.put('/:id', async (req, res) => {
+  try {
+    const tagData = await Tag.update(req.body,{
+      where: {
+        id: req.params.id
+      }
     });
+    //check if the id the user insert is present in the database 
+    if (!tagData) {
+      res.status(404).json({ message: 'No tag found with this id!' });
+      return;
+    }
+
+    res.status(200).json(tagData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 //delete tag passing its id WORKING
