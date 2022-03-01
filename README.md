@@ -33,7 +33,8 @@ The following image shows the web application's appearance:
 ## Room for Improvement
 
 Room for improvement:
-* Some minor changes required when creating or updating a product
+* Some changes required when creating or updating a product
+* Category model's delete route crashes with some values we pass as id
 
 ## Installation
 

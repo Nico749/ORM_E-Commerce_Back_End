@@ -3,7 +3,7 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
-//get all tags WORKING  
+//get all tags   
 router.get('/', async (req, res) => {
   try {
     const tagData = await Tag.findAll({
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET a single tag by id WORKING
+// GET a single tag by id 
 router.get('/:id', async (req, res) => {
   try {
     const tagData = await Tag.findByPk(req.params.id, {
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create a new tag WORKING
+// create a new tag 
 router.post('/', async (req, res) => {
   try {
     const tagData = await Tag.create(req.body);
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-//updating an existing tag WORKING
+//updating an existing tag 
 router.put('/:id', async (req, res) => {
   try {
     const tagData = await Tag.update(req.body,{
@@ -67,7 +67,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-//delete tag passing its id WORKING
+//delete tag passing its id 
 router.delete('/:id', async (req, res) => {
   try {
     const tagData = await Tag.destroy({
@@ -75,7 +75,6 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-    //check if the id the user insert is present in the database 
     if (!tagData) {
       res.status(404).json({ message: 'No tag found with this id!' });
       return;
