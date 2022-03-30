@@ -25,6 +25,7 @@ Project is created with:
 
 The following image shows the web application's appearance:
 ![ORM Back End](./demo/orm_demo_1.png)
+Click [here]( https://drive.google.com/file/d/1i-zk7R2LW17ItwgNcIOeXMQFg8Kce5GQ/view) for a short walkthrough video of the application.
 
 ## Project Status
 
@@ -33,8 +34,7 @@ The following image shows the web application's appearance:
 ## Room for Improvement
 
 Room for improvement:
-* Some changes required when creating or updating a product
-* Category model's delete route crashes with some values we pass as id
+* Some minor changes required when creating or updating a product
 
 ## Installation
 
